@@ -1,0 +1,12 @@
+{
+    "name": "batmahir/laravel-custom-api-authentication",
+    "description": "Laravel Custom API Authentication",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bathulah Mahir",
+            "email": "bathulahmahir@gmail.com"
+        }
+    ],
+    "require": {}
+}
