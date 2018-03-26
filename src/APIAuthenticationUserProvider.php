@@ -213,6 +213,12 @@ class APIAuthenticationUserProvider implements UserProvider , Authenticatable
             $this->createProperty($key,$value);
         }
 
+        if(isset($this->access_token))
+        {
+            $this->access_token = 'Bearer '.$this->access_token;
+        }
+
+
     }
 
     public function createProperty($name, $value){
