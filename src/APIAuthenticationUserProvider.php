@@ -90,19 +90,30 @@ class APIAuthenticationUserProvider implements UserProvider , Authenticatable
         ])->asJson()
         ->post();
 
-        if(isset($http->error))
+        if(isset($http->error) || $http == null)
         {
             $errors  = new MessageBag;
-            $errors->add('login error',$http->error);
+            $errors->add('login error',isset($http->error) ? $http->error : 'authentication error');
             return ;
 
         }
 
         $http2 =
         Curl::to($this->getAPIAuthenticationConnection()->main_app.'/oauth2-api/v1/user')
-            ->asJson()
             ->withHeaders( array( 'Authorization: Bearer '.$http->access_token) )
+            ->withHeaders( array( 'Accept: application/json') )
+            ->withHeaders( array( 'Content-Type: application/json') )
             ->get();
+
+        $http2 = \json_decode($http2);
+        
+        if(isset($http2->error) || $http2 == null )
+        {
+            $errors  = new MessageBag;
+            $errors->add('login error',isset($http2->error) ?  $http2->error : 'authentication error');
+            return ;
+
+        }
 
         $http = \json_decode(\json_encode($http),true);
         $http2 = \json_decode(\json_encode($http2),true);
