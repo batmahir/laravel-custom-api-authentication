@@ -162,7 +162,8 @@ class APIAuthenticationUserProvider implements UserProvider , Authenticatable
     {
         if (\session()->has($this->getAuthIdentifierName()))
         {
-            return \session()->get($this->getAuthIdentifierName());
+            $user =  \session()->get($this->getAuthIdentifierName());
+            return $user->access_token;
         }
 
         return null;
@@ -224,13 +225,15 @@ class APIAuthenticationUserProvider implements UserProvider , Authenticatable
             $this->createProperty($key,$value);
         }
 
-        if(isset($this->access_token))
-        {
-            $this->access_token = 'Bearer '.$this->access_token;
-        }
-
-
+        $this->access_token = $this->getAuthIdentifier();
     }
+
+    public function setNewAttribute($key , $value)
+    {
+        $this->createProperty($key ,$value);
+        \session()->put($this->getAuthIdentifierName() , $this);
+    }
+
 
     public function createProperty($name, $value){
         $this->{$name} = $value;

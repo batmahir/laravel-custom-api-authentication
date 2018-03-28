@@ -216,7 +216,9 @@ class APIAuthenticationDriver implements Guard ,StatefulGuard
         $this->fireLoginEvent($user, $remember);
         $this->setUser($user);
         $this->user->destroyAuthIdentifierSession();
-        \session()->put([ $this->user->getAuthIdentifierName()  => $this->user->getUser()->token_type.' '.$this->user->getUser()->access_token ]);
+        //\session()->put([ $this->user->getAuthIdentifierName() => $this->user->getUser()->token_type.' '.$this->user->getUser()->access_token ]);
+        $this->user->access_token = $this->user->getUser()->token_type.' '.$this->user->getUser()->access_token ;
+        \session()->put($this->user->getAuthIdentifierName() ,$this->user);
 
     }
 
