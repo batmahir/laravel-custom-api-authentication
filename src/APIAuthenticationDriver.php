@@ -108,6 +108,12 @@ class APIAuthenticationDriver implements Guard ,StatefulGuard
             return $this->user;
         }
 
+        if (\session()->has($this->user_provider->getAuthIdentifierName()))
+        {
+            $user =  \session()->get($this->user_provider->getAuthIdentifierName());
+            return $user;
+        }
+
         $authenticated_user = $this->user_provider->retrieveById($this->user_provider->getAuthIdentifier());
         if (!isset($authenticated_user))
         {
