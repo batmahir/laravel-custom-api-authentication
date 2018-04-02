@@ -173,6 +173,7 @@ class APIAuthenticationDriver implements Guard ,StatefulGuard
      */
     public function attempt(array $credentials = [], $remember = false)
     {
+        \session()->flush();
         $this->fireAttemptEvent($credentials, $remember);
 
         $this->lastAttempted = $user = $this->user_provider->retrieveByCredentials($credentials);
