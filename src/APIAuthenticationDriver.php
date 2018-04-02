@@ -271,6 +271,8 @@ class APIAuthenticationDriver implements Guard ,StatefulGuard
     {
         $this->user_provider->destroyAuthIdentifierSession();
 
+        \session()->flush();
+        
         $this->user = null;
 
         $this->loggedOut = true;
